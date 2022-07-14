@@ -35,6 +35,11 @@ services:
     labels:
       - traefik.enable=true
 
+    # For Cloudflare auth
+    environment:
+      - CLOUDFLARE_EMAIL=${CF_EMAIL}
+      - CLOUDFLARE_DNS_API_TOKEN=${CF_TOKEN}
+
     # environment
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # mandatory
