@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik:vacherin
+    container_name: traefik
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    networks:
+      - shared
+
+    # traefik
+    command:
+      - --api.dashboard=true
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+
+    labels:
+      - traefik.enable=true
+
+    # environment
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  shared:
+    name: shared

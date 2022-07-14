@@ -1,0 +1,6 @@
+# VSCode
+.vscode/**
+!.vscode/extensions.json
+
+# Secrets
+.env

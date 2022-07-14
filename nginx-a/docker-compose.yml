@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  nginx-a:
+    image: nginx:mainline-alpine
+    container_name: nginx-a
+    networks:
+      - shared
+
+    # traefik
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=shared
+      - traefik.http.routers.nginx-a.rule=Host(`a.${HOSTNAME}`)
+
+    # environment
+    volumes:
+      - ./html:/usr/share/nginx/html
+
+networks:
+  shared:
+    name: shared
