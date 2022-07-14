@@ -11,7 +11,9 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=shared
-      - traefik.http.routers.nginx-a.rule=Host(`a.${HOSTNAME}`)
+      - traefik.http.routers.nginx-a.rule=Host(`test-a.${HOSTNAME}`)
+      - traefik.http.routers.nginx-a.entrypoints=websecure
+      - traefik.http.routers.nginx-a.tls.certresolver=letsencrypt
 
     # environment
     volumes:

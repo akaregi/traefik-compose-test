@@ -7,23 +7,38 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
+      # - "8080:8080"
     networks:
       - shared
 
     # traefik
     command:
-      - --api.dashboard=true
-      - --api.insecure=true
+      # provider
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
+
+      # dashboard
+      # - --api.dashboard=true
+      # - --api.insecure=true
+
+      # entry points
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+
+      # Certificate
+      - --certificatesresolvers.letsencrypt.acme.dnschallenge=true
+      - --certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare
+      - --certificatesresolvers.letsencrypt.acme.email=${CA_EMAIL}
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.letsencrypt.acme.keyType=EC384
 
     labels:
       - traefik.enable=true
 
     # environment
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock # mandatory
+      - ./letsencrypt:/letsencrypt
 
 networks:
   shared:
