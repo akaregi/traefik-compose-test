@@ -33,7 +33,14 @@ services:
       - --certificatesresolvers.letsencrypt.acme.keyType=EC384
 
     labels:
+      # casting a spell
       - traefik.enable=true
+
+      # redirect to https
+      - traefik.http.routers.http-catchall.entrypoint=web
+      - traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)
+      - traefik.http.routers.http-catchall.middlewares=redirect-to-https@docker
+      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
 
     # For Cloudflare auth
     environment:
